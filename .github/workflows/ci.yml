@@ -2,30 +2,59 @@ name: CI for Java DDD Example
 
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]
   pull_request:
+    branches: [ main ]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
+    timeout-minutes: 15
+    
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: ddd_example
+        ports: [ "3306:3306" ]
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
     steps:
-      - uses: actions/checkout@v4
+      - name: 🛒 Checkout code
+        uses: actions/checkout@v4
 
-      - name: 🐳 Start all the environment
-        run: make start
+      - name: ☕ Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+          cache: 'gradle'
 
-      - name: 🔦 Lint
-        run: make lint
+      - name: 🏗️ Build project
+        run: ./gradlew build -x test
 
-      - name: 🦭 Wait for the environment to get up
+      - name: ⏳ Wait for MySQL
+        timeout-minutes: 2
         run: |
-          while ! make ping-mysql &>/dev/null; do
-              echo "Waiting for database connection..."
-              sleep 2
+          until nc -z localhost 3306; do
+            echo "Waiting for MySQL..."
+            sleep 2
           done
 
-      - name: ✅ Run the tests
-        run: make test
+      - name: 🧪 Run tests
+        run: ./gradlew test
+        env:
+          DB_URL: jdbc:mysql://localhost:3306/ddd_example
+          DB_USER: root
+          DB_PASSWORD: root
+
+      - name: 📦 Package artifacts
+        if: success()
+        run: ./gradlew bootJar
+
+      - name: 🚢 Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ddd-application
+          path: build/libs/*.jar
