@@ -1,4 +1,4 @@
-name: CI
+name: CI for Java DDD Example
 
 on:
   push:
