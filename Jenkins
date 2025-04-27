@@ -55,8 +55,9 @@ pipeline {
         always {
             echo "Cleaning up resources"
             bat 'docker stop mysql-container || true'
+            bat 'docker rm mysql-container || true'
             bat 'docker stop elasticsearch-container || true'
-            // Any other resource cleanup steps
+            bat 'docker rm elasticsearch-container || true'
         }
         success {
             echo "Build and test succeeded!"
