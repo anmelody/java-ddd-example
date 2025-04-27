@@ -1,0 +1,123 @@
+* [33me62cc56[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m Work in progress: preparing to pull
+* [33mf290f23[m Update README.md
+* [33m9f05d10[m Update .env
+* [33m13645de[m Add occurredOn to the class
+* [33m0f9d67c[m[33m ([m[1;31mupstream/main[m[33m)[m Update build.gradle
+* [33m7e62f1f[m Update build.gradle
+[31m|[m * [33m8a4b717[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m Work in progress: preparing to pull
+[31m|[m * [33mb536167[m Update README.md
+[31m|[m * [33mac8ab97[m Update .env
+[31m|[m * [33me9c9d87[m Add occurredOn to the class
+[31m|[m[31m/[m  
+* [33m3a58e32[m ci: fix docker compose usage due to GitHub deprecation (#95)
+* [33m712569f[m docs: update readme with light/dark logos
+* [33mb1e63d5[m feat: use generic event publisher for mysql consumer (#88)
+* [33mc577764[m chore: add all servers to docker (#85)
+* [33md4f712f[m fix: use tabs on editorconfig
+* [33m64a6d44[m style: add linter (#84)
+* [33mc65ab95[m chore: upgrade to java 21 (#83)
+* [33mec51797[m feat: add support for arm
+* [33m9d12c08[m feat: update gradle version to 7.4
+* [33mc0f4881[m feat: Adapt Makefile to best practices (#72)
+* [33m38383e4[m Fix extra space in json list serialization (#57)
+* [33mf53b34b[m Update to Java 11 (#56)
+* [33m565f69f[m Refactor ping mysql to a Makefile target (#42)
+* [33m3db5fff[m Add monitoring interface
+* [33m048f4f6[m Add logger interface
+* [33mf206ce2[m Add http error handling
+* [33m4fba494[m Simplify command/query bus
+* [33m64bdb21[m Add find course endpoint
+* [33mef008f3[m Add base api controller
+* [33m80c4617[m Add analytics context
+* [33me727b13[m Modelate backoffice authentication
+* [33m77717f4[m Add auth middleware
+* [33mf14a444[m Bump spring-orm from 5.2.1.RELEASE to 5.2.2.RELEASE (#32)
+* [33m0843cb4[m Bump elasticsearch-rest-client from 6.8.4 to 6.8.5 (#31)
+* [33m3d215c9[m Update gradle version (#26)
+* [33m27c4345[m Reformat all the code (#25)
+* [33mb64efac[m Move courses controller to backoffice backend
+* [33m46a8de4[m Update spring-orm dependency
+* [33m846118b[m Update spring starter test dependency
+* [33m9c6a54f[m Add backoffice courses repository cache
+* [33mea63495[m Add backoffice backend application
+* [33m98111bf[m Custom ports per every app
+* [33m1ed8827[m Update dependencies (#21)
+* [33m6672a04[m Create newsletter usecase (#20)
+* [33m98388f7[m Fix readme CI badge URL
+* [33ma5fe9b4[m Update README.md
+* [33mce20507[m Update README.md
+* [33m4899f76[m Add command to send newsletters (#18)
+* [33me4cbf16[m Flush Hibernate session on persisting in order to avoid publishing events of errored save operations
+* [33m3a18978[m Improve readme adding Docker support
+* [33m6518cc0[m Search in Elasticsearch by criteria
+* [33m3df63eb[m Integrate elasticsearch
+* [33m2e7ce89[m [backoffice-course] Add filters by criteria
+* [33m5247595[m [backoffice-course] List all existing courses
+* [33md0160de[m [backoffice-course] Add projection
+* [33meb66a04[m Specify the instance of "entity manager" to inject
+* [33m0dc5b66[m Allow having local environment files
+* [33m7391e40[m [backoffice] Add hibernate configuration
+* [33m91829da[m Abstract hibernate configuration factory
+* [33mf90f826[m Create all databases tables on application starts
+* [33mb57d7cc[m [ci] Use docker integration
+* [33ma11c872[m Extract config parameters using dotenv
+* [33m49982f0[m [backoffice-frontend] Add form errors
+* [33m75580e2[m [backoffice-frontend] Add form to create a new course
+* [33mfa9b0b5[m [backoffice-frontend] Add courses counter element with real data
+* [33ma73f892[m [backoffice-frontend] Add courses counter element with fake data
+* [33m63a1ec5[m [backoffice-frontend] Add courses page
+* [33m6ecd481[m Add static assets management
+* [33m6e427d6[m Integrate freemarker and add backoffice home page
+* [33mc57992f[m Simplify DomainEvent class
+* [33m13087b3[m Add backoffice frontend application
+* [33mee9fb07[m Add new Retention context boilerplate
+* [33m649c1df[m Add notifications module boilerplate
+* [33m2263df7[m Migrate ask for course counter to query bus
+* [33mc7c30d7[m Migrate create course use case to command handler
+* [33mca7d3b1[m Add query bus
+* [33m3dfa10c[m Add command bus
+* [33m670588e[m Add rabbitmq retries policy
+* [33m9436cb1[m Add rabbitmq retries policy
+* [33m0b93d75[m Improve rabbitmq consumption tests
+* [33mc633dc0[m Add rabbitmq domain event subscriber
+* [33m99ed0b2[m Format rabbitmq messages in json context type
+* [33m4f33df2[m Serialize to json rabbitmq domain events
+* [33mf931149[m Generate RabbitMQ configuration on application starts
+* [33mb15aed1[m Add MySql failover on error publishing to the RabbitMQ
+* [33mc6d9efd[m Publish domain events to RabbitMQ
+* [33m688cc72[m Publish domain events to RabbitMQ
+* [33mf58b632[m PoC - Integrate RabbitMQ
+* [33ma882039[m Clear the "unit of work" consuming domain events
+* [33mf996c32[m Add command to consume mysql domain events
+* [33m054998c[m Add MySql domain event consumer
+* [33m2c6d451[m Add mysql event bus
+* [33m35c00f5[m Improve support for cli commands
+* [33mdcce04f[m Use @Transactional on all database tests
+* [33m8c4714b[m Add courses counter finder use case
+* [33m0f0bbe2[m Add create course counter on course created tests
+* [33m0195dce[m Create course counter on course created (and save array list on hibernate)
+* [33m5028ecb[m Raise domain event on course created
+* [33mabc9f74[m Add spring event bus
+* [33md05cadd[m Simplify mysql step repository test using "data providers"
+* [33ma470ae3[m Add Steps (video and challenge)
+* [33m87c0d69[m Extract common hibernate repository
+* [33mb7d6e2d[m Add course repository integration test
+* [33m0ce63eb[m Split from mooc backend/frontend
+* [33m91af373[m Make the starters application-agnostic
+* [33mf4f3c5e[m Add hibernate
+* [33m7b6aa46[m Make out @Service domain annotation pure
+* [33ma9b4ce9[m Add semantics to the tests
+* [33m4afff7e[m Add Object Mother
+* [33mbf2bee3[m Add Value Objects
+* [33m14308a9[m Use UUIDs as identifiers
+* [33m1b62db9[m Use Request/Response object in application services
+* [33m1343da0[m Correct log properties file
+* [33ma5a9763[m Move app to apps
+* [33ma32abb0[m Test in memory course repository
+* [33me8fef50[m Test course creator
+* [33mf520023[m Create courses using hexagonal architecture
+* [33m057df75[m Test create course
+* [33m82d5c1d[m Acceptance test fot the health check endpoint
+* [33m053ccc7[m Add spring boot support
+* [33m17260c8[m Add monorepo structure (#1)
+* [33m1065b2e[m Initial commit
