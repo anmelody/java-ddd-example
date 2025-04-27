@@ -1,6 +1,6 @@
 pipeline {
     agent any
-    
+
     environment {
         JAVA_HOME = tool name: 'JDK21', type: 'JDK'  // Updated to JDK21
         PATH = "${JAVA_HOME}/bin:${env.PATH}"  // Ensure the JDK is added to the PATH
@@ -18,7 +18,7 @@ pipeline {
             steps {
                 echo "Running Gradle build"
                 bat './gradlew clean build'  // For Windows agents
-                // Use './gradlew clean build' instead of 'bat' for Linux agents
+                // Use './gradlew clean build' for Linux agents
             }
         }
 
@@ -26,6 +26,30 @@ pipeline {
             steps {
                 echo "Running Gradle tests"
                 bat './gradlew test'  // For Windows agents
-                // Use './gradlew test' instead of 'bat' for Linux agents
+                // Use './gradlew test' for Linux agents
             }
         }
+
+        stage('Deploy') {
+            steps {
+                echo "Deploying application" 
+                // Add your deployment steps here, for example:
+                // sh './gradlew deploy'  // For Linux agents
+                // bat './gradlew deploy'  // For Windows agents
+            }
+        }
+    }
+
+    post {
+        always {
+            echo "Cleaning up resources"
+            // Add cleanup actions here if needed (e.g., remove temporary files, containers, etc.)
+        }
+        success {
+            echo "Build and test succeeded!"
+        }
+        failure {
+            echo "Build or test failed!"
+        }
+    }
+}
