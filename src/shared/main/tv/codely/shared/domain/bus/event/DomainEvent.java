@@ -37,13 +37,6 @@ public abstract class DomainEvent {
         String eventId,
         String occurredOn
     );
-	AnalyticsDomainEvent domainEvent = new AnalyticsDomainEvent(
-    id, 
-    aggregateId, 
-    name, 
-    body, 
-    Instant.now() // Add current timestamp
-);
 
     public String aggregateId() {
         return aggregateId;
