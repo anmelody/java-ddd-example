@@ -14,11 +14,25 @@ pipeline {
             }
         }
 
+        stage('Start Services') {
+            steps {
+                echo "Starting MySQL and Elasticsearch containers..."
+
+                // Stop and remove containers if already running
+                bat 'docker stop mysql-container || true'
+                bat 'docker rm mysql-container || true'
+                bat 'docker run -d --rm --name mysql-container -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=ddd_example -p 3306:3306 mysql:8'
+
+                bat 'docker stop elasticsearch-container || true'
+                bat 'docker rm elasticsearch-container || true'
+                bat 'docker run -d --rm --name elasticsearch-container -p 9200:9200 elasticsearch:8'
+            }
+        }
+
         stage('Build') {
             steps {
                 echo "Running Gradle build"
                 bat './gradlew clean build'  // For Windows agents
-                // Use './gradlew clean build' for Linux agents
             }
         }
 
@@ -26,16 +40,13 @@ pipeline {
             steps {
                 echo "Running Gradle tests"
                 bat './gradlew test'  // For Windows agents
-                // Use './gradlew test' for Linux agents
             }
         }
 
         stage('Deploy') {
             steps {
-                echo "Deploying application" 
-                // Add your deployment steps here, for example:
-                // sh './gradlew deploy'  // For Linux agents
-                // bat './gradlew deploy'  // For Windows agents
+                echo "Deploying application"
+                // Add your deployment steps here
             }
         }
     }
@@ -43,7 +54,9 @@ pipeline {
     post {
         always {
             echo "Cleaning up resources"
-            // Add cleanup actions here if needed (e.g., remove temporary files, containers, etc.)
+            bat 'docker stop mysql-container || true'
+            bat 'docker stop elasticsearch-container || true'
+            // Any other resource cleanup steps
         }
         success {
             echo "Build and test succeeded!"
