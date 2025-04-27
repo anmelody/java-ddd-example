@@ -22,13 +22,17 @@ jobs:
         java-version: '21'
 
     - name: Build with Gradle
-      run: ./gradlew clean build -x test
-
+      run: |
+        ./gradlew clean build -x test || (cat build/reports/build-report.txt && exit 1)
+      
     - name: Run tests
+      if: success()  # Only run tests if build succeeds
       run: ./gradlew test
 
     - name: Upload build artifacts
+      if: success()
       uses: actions/upload-artifact@v4
       with:
         name: build-artifacts
         path: build/libs/**
+        retention-days: 7
