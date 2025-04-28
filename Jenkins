@@ -21,11 +21,11 @@ pipeline {
                 // Stop and remove containers if already running
                 bat 'docker stop mysql-container || true'
                 bat 'docker rm mysql-container || true'
-                bat 'docker run -d --rm --name mysql-container -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=ddd_example -p 3306:3306 mysql:8'
+                bat 'docker run -d --rm --name mysql-container -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=ddd_example -p 3307:3307 mysql:8'
 
                 bat 'docker stop elasticsearch-container || true'
                 bat 'docker rm elasticsearch-container || true'
-                bat 'docker run -d --rm --name elasticsearch-container -p 9200:9200 elasticsearch:8'
+                bat 'docker run -d --rm --name elasticsearch-container -e "discovery.type=single-node" -p 9200:9200 elasticsearch:8'
             }
         }
 
