@@ -1,70 +1,60 @@
 pipeline {
     agent any
 
+    tools {
+        jdk 'jdk17'  // Change to your JDK name configured in Jenkins
+    }
+
     environment {
-        JAVA_HOME = tool name: 'JDK21', type: 'JDK'  // Updated to JDK21
-        PATH = "${JAVA_HOME}/bin:${env.PATH}"  // Ensure the JDK is added to the PATH
+        MYSQL_CONTAINER = 'mysql-container'
+        ELASTICSEARCH_CONTAINER = 'elasticsearch-container'
     }
 
     stages {
         stage('Checkout') {
             steps {
-                echo "Checking out the code"
+                echo 'Checking out the code...'
                 checkout scm
             }
         }
 
         stage('Start Services') {
             steps {
-                echo "Starting MySQL and Elasticsearch containers..."
+                echo 'Starting MySQL and Elasticsearch containers...'
+                bat '''
+                    docker stop %MYSQL_CONTAINER% || echo "MySQL container not running"
+                    docker rm %MYSQL_CONTAINER% || echo "MySQL container already removed"
+                    docker run -d --name %MYSQL_CONTAINER% -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=ddd_example -p 3306:3306 mysql:8
 
-                // Stop and remove the MySQL container if it's already running
-                bat 'docker stop mysql-container || true'
-                bat 'docker rm mysql-container || true'
-                bat 'docker run -d --rm --name mysql-container -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=ddd_example -p 3307:3307 mysql:8'
-
-                // Stop and remove the Elasticsearch container if it's already running
-                bat 'docker stop elasticsearch-container || true'
-                bat 'docker rm elasticsearch-container || true'
-                bat 'docker run -d --rm --name elasticsearch-container -e "discovery.type=single-node" -p 9200:9200 elasticsearch:7.17.0'
+                    docker stop %ELASTICSEARCH_CONTAINER% || echo "Elasticsearch container not running"
+                    docker rm %ELASTICSEARCH_CONTAINER% || echo "Elasticsearch container already removed"
+                    docker run -d --name %ELASTICSEARCH_CONTAINER% -p 9200:9200 -p 9300:9300 elasticsearch:7.17.10
+                '''
             }
         }
 
         stage('Build') {
             steps {
-                echo "Running Gradle build"
-                bat './gradlew clean build'  // For Windows agents
+                echo 'Building the application...'
+                bat './gradlew clean build'
             }
         }
 
         stage('Test') {
             steps {
-                echo "Running Gradle tests"
-                bat './gradlew test'  // For Windows agents
-            }
-        }
-
-        stage('Deploy') {
-            steps {
-                echo "Deploying application"
-                // Add your deployment steps here
+                echo 'Running tests...'
+                bat './gradlew test'
             }
         }
     }
 
     post {
         always {
-            echo "Cleaning up resources"
-            bat 'docker stop mysql-container || true'
-            bat 'docker rm mysql-container || true'
-            bat 'docker stop elasticsearch-container || true'
-            bat 'docker rm elasticsearch-container || true'
-        }
-        success {
-            echo "Build and test succeeded!"
-        }
-        failure {
-            echo "Build or test failed!"
+            echo 'Stopping containers...'
+            bat '''
+                docker stop %MYSQL_CONTAINER% || echo "MySQL container not running"
+                docker stop %ELASTICSEARCH_CONTAINER% || echo "Elasticsearch container not running"
+            '''
         }
     }
 }
